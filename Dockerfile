@@ -1,19 +1,23 @@
+FROM debian:jessie
 
-FROM alpine
+RUN apt-get update \
+	&& apt-get install -y gcc make g++ zlib1g-dev tar git wget xz-utils socket \
+    && apt-get -q -y clean 
 
-RUN cvs -d :pserver:cvs@cvs.fefe.de:/cvs -z9 co libowfat \\
-  && cd libowfat \\
-  && make
-  
-COPY libowfat-0.30 /tmp/libowfat
-COPY opentracker /tmp/opentracker
-RUN apk --update add gcc make g++ zlib-dev && \
-ls /tmp; make -C /tmp/libowfat && make -C /tmp/opentracker &&\
-apk del gcc make g++ zlib-dev && \
-mv /tmp/opentracker/opentracker /bin/  && \
-rm -rf /var/cache/apk/* /tmp/* &&\
-touch /etc/opentracker.conf;
+RUN cd /tmp/ \
+	&& wget http://www.fefe.de/libowfat/libowfat-0.30.tar.xz \
+	&& tar -xpvf libowfat-0.30.tar.xz  \
+	&& mv libowfat-0.30 libowfat \
+	&& make -C /tmp/libowfat
 
+RUN cd /tmp/ \
+	&& find / -name 'socket.h' \
+	&& git clone https://erdgeist.org/gitweb/opentracker \
+	&& ls -lha /tmp \
+	&& make -C /tmp/opentracker \
+	&& ln -s /tmp/opentracker/opentracker /bin/opentracker
+
+COPY opentracker.conf /etc/opentracker.conf
 COPY entrypoint.sh /
 
 EXPOSE 6969 80

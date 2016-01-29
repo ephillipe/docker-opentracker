@@ -2,11 +2,11 @@
 #
 # This script compiles the opentracker project and builds a docker image
 
-git submodule update --init --recursive
-git submodule foreach git pull origin master
-rm opentracker
+#git submodule update --init --recursive
+#git submodule foreach git pull origin master
+#rm opentracker
 
-cp Makefile opentracker
+#cp Makefile opentracker
 docker build -t ephillipe/opentracker .
 
 # docker run --name ot ephillipe/opentracker:latest /bin/sh
