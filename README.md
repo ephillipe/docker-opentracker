@@ -7,7 +7,7 @@ The tracker is mapped to the hosts port 6969.
 
 Feel free to do your own make just build by running `./build.sh`
 
-[Check out the repository here](https://github.com/Anthonyzou/docker-build-stuffs)
+[Check out the repository here](https://github.com/ephillipe/docker-opentracker)
 
 
 opentracker output
